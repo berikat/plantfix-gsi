@@ -1,0 +1,110 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Work Order",
+  "modified": "2019-09-27 09:30:13.818767",
+  "name": "Work Order-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "//created by enggar 11 September 2019\n//remark bom hilang setelah input\nfrappe.ui.form.on(\"Work Order\",\"bom_no\", function(frm){\nif(cur_frm.doc.bom_no != \" \"){\ncur_frm.doc.bom = \"\";\ncur_frm.refresh_field('bom');\n}\n});\n\n//created by enggar 13 September 2019\n//kalkulasi total inject & shot\nfrappe.ui.form.on(\"Work Order\",\"uom\", function(frm){\ncur_frm.doc.total_inject += cur_frm.doc.qty / cur_frm.doc.uom;\ncur_frm.doc.shot = cur_frm.doc.total_inject;\ncur_frm.refresh_field('shot');\ncur_frm.refresh_field('total_inject');\n});\n\n//kalkulasi total cycle time gross & netto, target production qty\nfrappe.ui.form.on(\"Work Order\",\"operational_time\", function(frm){\ncur_frm.doc.cycle_time_gross += (3600*flt(cur_frm.doc.operational_time + cur_frm.doc.loss_time))/flt(cur_frm.doc.shot);\ncur_frm.doc.cycle_time_netto += (3600*flt(cur_frm.doc.operational_time)/cur_frm.doc.shot);\ncur_frm.doc.target_production_qty += (3600*flt(cur_frm.doc.operational_time + cur_frm.doc.loss_time))*flt(cur_frm.doc.uom)/flt(cur_frm.doc.cycle_time_netto);\ncur_frm.refresh_field('target_production_qty');\ncur_frm.refresh_field('cycle_time_gross');\ncur_frm.refresh_field('cycle_time_netto');\n});\n\n//kalkulasi PPM\nfrappe.ui.form.on(\"Work Order\",\"ng\", function(frm){\ncur_frm.doc.ppm += (cur_frm.doc.ng / cur_frm.doc.qty)*1000000;\ncur_frm.refresh_field('ppm');\n});\n\n//creator\nfrappe.ui.form.on(\"Work Order\", \"validate\", function(frm) {\n    cur_frm.set_value(\"creator\", frm.doc.owner);\n});\n\n//edited by enggar 27 September 2019\n//NG Weight\nfrappe.ui.form.on(\"Work Order\",\"standar_weight\", function(frm){\ncur_frm.doc.ng_weight+= (cur_frm.doc.standar_weight * cur_frm.doc.ng);\ncur_frm.refresh_field('ng_weight');\n});\n",
+  "script_type": "Client"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Purchase Order",
+  "modified": "2019-09-13 15:38:13.344458",
+  "name": "Purchase Order-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "//created by enggar - 13 September 2019\nfrappe.ui.form.on(\"Purchase Order\", \"validate\", function(frm) {\n    cur_frm.set_value(\"creator\", frm.doc.owner);\n});",
+  "script_type": "Client"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Purchase Receipt",
+  "modified": "2019-09-13 15:40:45.772854",
+  "name": "Purchase Receipt-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "//created by enggar - 9 September 2019\nfrappe.ui.form.on(\"Purchase Receipt\", \"validate\", function(frm) {\n    cur_frm.set_value(\"creator\", frm.doc.owner);\n});",
+  "script_type": "Client"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Purchase Invoice",
+  "modified": "2019-09-13 16:13:39.109303",
+  "name": "Purchase Invoice-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "//created by enggar - 13 September 2019\nfrappe.ui.form.on(\"Purchase Invoice\", \"validate\", function(frm) {\n    cur_frm.set_value(\"creator\", frm.doc.owner);\n});",
+  "script_type": "Client"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Payment Entry",
+  "modified": "2019-09-13 16:15:59.710632",
+  "name": "Payment Entry-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "//created by enggar - 13 September 2019\nfrappe.ui.form.on(\"Payment Entry\", \"validate\", function(frm) {\n    cur_frm.set_value(\"creator\", frm.doc.owner);\n});",
+  "script_type": "Client"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Journal Entry",
+  "modified": "2019-09-13 16:24:06.549804",
+  "name": "Journal Entry-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "//created by enggar 13 September 2019\nfrappe.ui.form.on(\"Journal Entry\", \"validate\", function(frm) {\n    cur_frm.set_value(\"creator\", frm.doc.owner);\n});",
+  "script_type": "Client"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Sales Invoice",
+  "modified": "2019-09-19 16:10:47.299401",
+  "name": "Sales Invoice-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "//created by enggar - 13 September 2019\nfrappe.ui.form.on(\"Sales Invoice\", \"validate\", function(frm) {\n    cur_frm.set_value(\"creator\", frm.doc.owner);\n});\n\nfrappe.ui.form.on(\"Sales Invoice Item\", \"batch_no\", function(frm, cdt, cdn) {\n    var d = locals[cdt][cdn];\n        frappe.db.get_value(\"Batch\", {\"name\": d.batch_no}, \"expiry_date\", function(value) {\n            d.expiry_date = value.expiry_date;\n        });\n});",
+  "script_type": "Client"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Delivery Note",
+  "modified": "2019-09-13 16:30:01.931496",
+  "name": "Delivery Note-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "//created by enggar - 13 September 2019\nfrappe.ui.form.on(\"Delivery Note\", \"validate\", function(frm) {\n    cur_frm.set_value(\"creator\", frm.doc.owner);\n});",
+  "script_type": "Client"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Script",
+  "dt": "Stock Entry",
+  "modified": "2019-06-12 09:33:29.335083",
+  "name": "Stock Entry-Client",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "script": "frappe.ui.form.on(\"Stock Entry\", {\n\t\"purpose\": function(frm) {\n\t\tif (frm.doc.purpose==\"Material Receipt\") {\n\t\t\tfrm.set_df_property(\"bc_type\", \"options\", \n\t\t\t\t[\n\t\t\t\t\t\"\",\n\t\t\t\t\t\"BC 2.3\",\n\t\t\t\t\t\"BC 2.6.2\",\n\t\t\t\t\t\"BC 2.7\",\n\t\t\t\t\t\"BC 4.0\",\n\t\t\t\t\t\"PPFTZ02\"\n\t\t\t\t]\n\t\t\t);\n\t\t}\n\t\telse {\n\t\t\tfrm.set_df_property(\"bc_type\", \"options\", [ \"\" ]);\n\t\t}\n\t}\n});\n\nfrappe.ui.form.on(\"Stock Entry\", {\n\t\"bc_type\": function(frm) {\n\t\tif (frm.doc.bc_type==\"\") {\n\t\t\tfrm.set_df_property(\"bc_type\", \"reqd\", 0);\n\t\t\tfrm.set_df_property(\"bc_number\", \"reqd\", 0);\n\t\t\tfrm.set_df_property(\"bc_date\", \"reqd\", 0);\n\t\t\tfrm.set_df_property(\"bc_supplier\", \"reqd\", 0);\n\t\t}\n\t\telse {\n\t\t\tfrm.set_df_property(\"bc_type\", \"reqd\", 1);\n\t\t\tfrm.set_df_property(\"bc_number\", \"reqd\", 1);\n\t\t\tfrm.set_df_property(\"bc_date\", \"reqd\", 1);\n\t\t\tfrm.set_df_property(\"bc_supplier\", \"reqd\", 1);\n\t\t}\n\t}\n});",
+  "script_type": "Client"
+ }
+]

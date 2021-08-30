@@ -1,0 +1,8 @@
+{
+    "js/cdms.js": [
+        "public/js/cdms.js"
+    ],
+    "css/cdms.css": [
+        "public/css/cdms.css"
+    ]
+}
