@@ -178,7 +178,7 @@ SELECT se.company AS `Company`
 FROM `tabStock Entry` se
 JOIN `tabStock Entry Detail` sei ON se.`name` = sei.`parent` and sei.parenttype = 'Stock Entry'
 JOIN `tabCompany` comp ON se.company = comp.`name`
-LEFT JOIN `tabSupplier` sup ON se.`bc_supplier` = sup.`name`
+LEFT JOIN `tabSupplier` sup ON se.`supplier_bc` = sup.`name`
 WHERE se.docstatus != 2 AND se.purpose = 'Material Receipt') as cs 
 where cs.modified >= %s and cs.modified < %s
 order by cs.`ExternalId`
