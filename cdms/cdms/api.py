@@ -205,9 +205,9 @@ def get_outgoing(from_date=None, to_date=None, limit_start=None, limit_page_leng
 , dn.currency AS `Currency`
 , dni.rate AS `UnitPrice`
 , dn.base_grand_total AS `Amount`
-, dn.`type_of_customs_document` AS `BcType`
-, dn.`number_of_customs_document` AS `BcNumber`
-, dn.`date_of_customs_document` AS `BcDate`
+, dn.`bc_type` AS `BcType`
+, dn.`bc_number` AS `BcNumber`
+, dn.`bc_date` AS `BcDate`
 , inv.`name` AS `InvoiceNo`
 , inv.`posting_date` AS `InvoiceDate`
 , case when dni.modified > dn.modified then dni.modified else dn.modified end modified
