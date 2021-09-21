@@ -315,7 +315,7 @@ concat(a.`name`,'-',b.`name`) id
 , b.bom
 FROM `tabSales Invoice` a
 JOIN `tabSales Invoice Item` b ON a.`name` = b.`parent` AND b.`parenttype` = 'Sales Invoice'
-JOIN `tabCustomer` c ON a.customer = c.`name`
+JOIN `tabCustomer` c ON a.`customer` = c.`name`
 WHERE a.modified >= %s and a.modified < %s
 order by a.`name`, b.`name`
 limit %s,%s""", (from_date, to_date, int(limit_start), int(limit_page_length)), as_dict=True)
