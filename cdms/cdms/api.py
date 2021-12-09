@@ -296,7 +296,7 @@ def get_invoice(from_date=None, to_date=None, limit_start=None, limit_page_lengt
         limit_start = 0 
     datalist = frappe.db.sql("""SELECT 
 concat(a.`name`,'-',b.`name`) id
-, a.`name` invoice_number
+, a.remark_sales_invoice invoice_number
 , a.company
 , a.posting_date invoice_date
 , a.title account_name
