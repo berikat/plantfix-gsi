@@ -310,7 +310,7 @@ concat(a.`name`,'-',b.`name`) id
 , a.currency
 , b.total_weight net_weight
 , a.modified
-, a.`name` remark_sales_invoice
+, a.remark_sales_invoice
 , a.docstatus
 , b.bom
 FROM `tabSales Invoice` a
