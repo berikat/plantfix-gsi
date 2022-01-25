@@ -236,9 +236,10 @@ def get_bom(from_date=None, to_date=None, limit_start=None, limit_page_length=No
     , b.stock_qty as Quantity
     , b.stock_uom as UomName
     , a.remark Remark
+    , case when a.docstatus = 2 then a.modified ELSE NULL END AS Modified 
 from `tabBOM` a
 inner join `tabBOM Item` b on a.name = b.parent
-where a.docstatus = 1 and a.modified >= %s and a.modified < %s
+where a.docstatus in (1, 2) and a.modified >= %s and a.modified < %s
 order by a.`name`
 limit %s,%s""", (from_date, to_date, int(limit_start), int(limit_page_length)), as_dict=True)
     return get_response(datalist)
