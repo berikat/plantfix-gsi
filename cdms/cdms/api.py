@@ -9,7 +9,7 @@ def get_item(from_date=None, to_date=None, limit_start=None, limit_page_length=N
     if not limit_start:
         limit_start = 0 
     datalist = frappe.db.sql("""SELECT `item_code`, `item_name`, `item_group`, `weight_per_unit`
-, `country_of_origin`, `stock_uom`, `is_fixed_asset` 
+, `country_of_origin`, `stock_uom`, `is_fixed_asset`, `disabled`
 FROM tabItem a WHERE `docstatus` != 2 and a.modified >= %s and a.modified < %s
 order by a.`name`
 limit %s,%s""", (from_date, to_date, int(limit_start), int(limit_page_length)), as_dict=True)
