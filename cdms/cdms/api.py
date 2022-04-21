@@ -148,6 +148,7 @@ JOIN `tabPurchase Receipt Item` pri ON pr.`name` = pri.`parent` and pri.parentty
 JOIN `tabSupplier` sup ON pr.`supplier` = sup.`name`
 LEFT JOIN `tabPurchase Invoice Item` invi ON pr.`name` = invi.`purchase_receipt` AND invi.`parenttype` = 'Purchase Invoice'
 LEFT JOIN `tabPurchase Invoice` inv ON invi.`parent` = inv.`name`
+WHERE pr.docstatus = 1
 UNION	
 SELECT se.company AS `Company`
 , se.`name` AS `ExternalId`
@@ -179,7 +180,7 @@ FROM `tabStock Entry` se
 JOIN `tabStock Entry Detail` sei ON se.`name` = sei.`parent` and sei.parenttype = 'Stock Entry'
 JOIN `tabCompany` comp ON se.company = comp.`name`
 LEFT JOIN `tabSupplier` sup ON se.`supplier_bc` = sup.`name`
-WHERE se.docstatus != 2 AND se.purpose = 'Material Receipt') as cs 
+WHERE se.docstatus = 1 AND se.purpose = 'Material Receipt') as cs 
 where cs.modified >= %s and cs.modified < %s
 order by cs.`ExternalId`
 limit %s,%s""", (from_date, to_date, int(limit_start), int(limit_page_length)), as_dict=True)
