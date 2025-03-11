@@ -149,6 +149,7 @@ JOIN `tabSupplier` sup ON pr.`supplier` = sup.`name`
 LEFT JOIN `tabPurchase Invoice Item` invi ON pr.`name` = invi.`purchase_receipt` AND invi.`parenttype` = 'Purchase Invoice'
 LEFT JOIN `tabPurchase Invoice` inv ON invi.`parent` = inv.`name`
 WHERE pr.docstatus = 1
+WHERE pr.docstatus = 1
 UNION	
 SELECT se.company AS `Company`
 , se.`name` AS `ExternalId`
@@ -181,6 +182,7 @@ JOIN `tabStock Entry Detail` sei ON se.`name` = sei.`parent` and sei.parenttype 
 JOIN `tabCompany` comp ON se.company = comp.`name`
 LEFT JOIN `tabSupplier` sup ON se.`supplier_bc` = sup.`name`
 WHERE se.docstatus = 1 AND se.purpose = 'Material Receipt') as cs 
+WHERE se.docstatus = 1 AND se.purpose = 'Material Receipt') as cs 
 where cs.modified >= %s and cs.modified < %s
 order by cs.`ExternalId`
 limit %s,%s""", (from_date, to_date, int(limit_start), int(limit_page_length)), as_dict=True)
@@ -206,9 +208,9 @@ def get_outgoing(from_date=None, to_date=None, limit_start=None, limit_page_leng
 , dn.currency AS `Currency`
 , dni.rate AS `UnitPrice`
 , dn.base_grand_total AS `Amount`
-, dn.`bc_type` AS `BcType`
-, dn.`bc_number` AS `BcNumber`
-, dn.`bc_date` AS `BcDate`
+, dn.`type_of_customs_document` AS `BcType`
+, dn.`number_of_customs_document` AS `BcNumber`
+, dn.`date_of_customs_document` AS `BcDate`
 , inv.`name` AS `InvoiceNo`
 , inv.`posting_date` AS `InvoiceDate`
 , case when dni.modified > dn.modified then dni.modified else dn.modified end modified
@@ -317,7 +319,7 @@ concat(a.`name`,'-',b.`name`) id
 , b.bom
 FROM `tabSales Invoice` a
 JOIN `tabSales Invoice Item` b ON a.`name` = b.`parent` AND b.`parenttype` = 'Sales Invoice'
-JOIN `tabCustomer` c ON a.`customer` = c.`name`
+JOIN `tabCustomer` c ON a.title = c.`name`
 WHERE a.modified >= %s and a.modified < %s
 order by a.`name`, b.`name`
 limit %s,%s""", (from_date, to_date, int(limit_start), int(limit_page_length)), as_dict=True)
