@@ -15,7 +15,7 @@ app_include_js = "/assets/cdms/js/cdms.js"
 
 fixtures = [
     {"dt":"Custom Field", "filters": [["dt", "in", ("BOM", "Warehouse", "Customer", "Item", "Company", "Supplier", "Address", "Purchase Receipt", "Purchase Receipt Item", "Stock Entry", "Stock Entry Detail","Sales Invoice Item")]]}, 
-    "Custom Script", "Property Setter"
+    "Client Script", "Property Setter"
 ]
 
 website_context = {
